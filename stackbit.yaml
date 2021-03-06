@@ -1,0 +1,77 @@
+stackbitVersion: ~0.3.0
+# the name of the static site generator
+ssgName: gatsby
+# the build command that builds the static site
+buildCommand: gatsby build
+# the folder where static site generator puts the generated site
+publishDir: public
+# the assets object defining how to handle project assets
+dataDir: src/data
+# the folder containing project's markdown page files (.md, .mdx, .markdown)
+pagesDir: src/content
+# list of globs matching the files that should be excluded from the pagesDir
+excludePages:
+  - README.md
+
+# the schema of project's content
+metadata:
+  title: Liam Ellis
+  description: This is my personal developer site
+  author: Liam Ellis
+  authorURL: "https://github.com/Monichre"
+  images:
+    small: src/images/me.jpeg
+    large: src/images/me.jpeg
+
+assets:
+  referenceType: static
+  # the folder with static asset files
+  staticDir: static
+  # the folder within the staticDir where the uploaded files will be stored
+  uploadDir: src/images
+  # the URL path from which the static assets will be server
+  publicPath: /
+# the folder containing project's data files (yaml, json, toml)
+
+# list of field that are used in logical expressions
+# logicFields:
+#   - post.category
+
+models:
+  job:
+    type: page
+    label: Job
+    folder: jobs
+    urlPath: "/work-history/{job}"
+    # list of model fields
+    fields:
+      # see model fields documentation for more info
+      - type: string
+        name: company
+      - type: string
+        name: stack
+      - type: string
+        name: role
+      - type: string
+        name: description
+      - type: string
+        name: website
+
+  project:
+    type: page
+    label: Project
+    folder: projects
+    urlPath: "/projects/{project}"
+    # list of model fields
+    fields:
+      # see model fields documentation for more info
+      - type: string
+        name: name
+      - type: string
+        name: description
+      - type: string
+        name: website
+      - type: string
+        name: stack
+      - type: string
+        name: role
