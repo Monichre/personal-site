@@ -17,6 +17,65 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: `gatsby-source-github-api`,
+      options: {
+        token: `f86abde781d4f400fa0e2fd0f119df6279bb2434`,
+        graphQLQuery: `
+        query {
+          user(login: "monichre") {
+            login
+            status {
+              message
+            }
+            avatarUrl
+            bio
+            repositoriesContributedTo(first: 20) {
+              edges {
+                node {
+                  name
+                  url
+                  owner {
+                    login
+                  }
+                }
+              }
+            }
+            pinnedItems(first:10) {
+              edges {
+                node{
+                  ...on Repository {
+                    name
+                    url
+                    owner {
+                      login
+                    }
+                  }
+
+                }
+              }
+            }
+            repositories(first: 20, orderBy: {field: STARGAZERS, direction: DESC}) {
+              edges {
+                node {
+                  name
+                  description
+                  url
+                  stargazers {
+                    totalCount
+                  }
+                  readme: object(expression:"master:README.md"){
+                    ... on Blob{
+                      text
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }`,
+      },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/src/content`,

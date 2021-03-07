@@ -30,3 +30,5 @@ declare global {
     }
   }
 }
+
+declare module "react-animated-cursor";

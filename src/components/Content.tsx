@@ -3,11 +3,13 @@ import { GeistUIThemes, Text, Link } from "@geist-ui/react";
 import makeStyles from "./makeStyles";
 import EventListItem from "./EventListItem";
 import ProjectCard from "./ProjectCard";
+import { AppContext } from "./Layout/layout";
+import { useContext } from "react";
+import { useStaticQuery, graphql } from "gatsby";
+import { parseData } from "./github-parser";
 
 const useStyles = makeStyles((ui: GeistUIThemes) => ({
-  root: {
-    backgroundColor: ui.palette.accents_1,
-  },
+  root: {},
   content: {
     width: ui.layout.pageWidthWithMargin,
     maxWidth: "100%",
@@ -67,8 +69,10 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
   },
 }));
 
-const Content = () => {
+const Content = ({ pinnedItems, contributions, repos }: any) => {
   const classes = useStyles();
+
+  const { projects, jobs } = useContext(AppContext);
   return (
     <div className={classes.root}>
       <div className={classes.content}>

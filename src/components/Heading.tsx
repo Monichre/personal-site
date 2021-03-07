@@ -62,31 +62,19 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
   },
 }));
 
-const Heading = () => {
+const Heading = ({ bio, profile }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <Avatar
-          alt="Your Avatar"
-          className={classes.avatar}
-          src="/assets/avatar.png"
-        />
+        <Avatar alt="Your Avatar" className={classes.avatar} src={profile} />
         <div className={classes.name}>
           <div className={classes.title}>
             <Text h2 className={classes.username}>
-              Ofek Ashery
+              Liam Ellis
             </Text>
-            <Button
-              className={classes.createProjectButton}
-              type="secondary"
-              auto
-            >
-              Create Project
-            </Button>
           </div>
           <div>
-            <Text className={classes.integrationsTitle}>Git Integrations</Text>
             <Link
               href="https://github.com/ofekashery"
               target="_blank"
@@ -96,9 +84,10 @@ const Heading = () => {
             >
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Icons.GitHub size={16} aria-label="Github" />
-                <Text className={classes.integrationsUsername}>ofekashery</Text>
+                <Text className={classes.integrationsUsername}>monichre</Text>
               </div>
             </Link>
+            <Text className={classes.integrationsTitle}>{bio}</Text>
           </div>
         </div>
       </div>

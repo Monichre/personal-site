@@ -41,7 +41,7 @@ models:
   job:
     type: page
     label: Job
-    folder: jobs
+    folder: src/content/jobs
     urlPath: "/work-history/{job}"
     # list of model fields
     fields:
@@ -60,7 +60,7 @@ models:
   project:
     type: page
     label: Project
-    folder: projects
+    folder: src/content/projects
     urlPath: "/projects/{project}"
     # list of model fields
     fields:
