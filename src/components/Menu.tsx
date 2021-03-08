@@ -10,6 +10,7 @@ import {
 } from "@geist-ui/react";
 import makeStyles from "./makeStyles";
 import * as Icons from "react-feather";
+import { navigate } from "gatsby";
 
 const useStyles = makeStyles((ui: GeistUIThemes) => ({
   header: {
@@ -111,6 +112,7 @@ const Menu = ({ toggleDarkMode }: any) => {
   const classes = useStyles();
   const theme = useTheme();
   const [fixed, setFixed] = useState(false);
+
   const isDark = theme.type === "dark";
 
   useEffect(() => {
@@ -122,12 +124,16 @@ const Menu = ({ toggleDarkMode }: any) => {
     return () => document.removeEventListener("scroll", scrollHandler);
   }, [fixed]);
 
+  const handleChange = (nextPath) => navigate(nextPath);
+
   return (
     <>
       <div className={classes.header}>
         <div className={classes.headerContent}>
           <div style={{ display: "flex" }}>
-            <div className={classes.headerTitle}>React Dashboard Design</div>
+            <div className={classes.headerTitle}>
+              Liam Ellis, Senior Software Engineer
+            </div>
           </div>
           <div className={classes.sidebar}>
             <Button
@@ -151,14 +157,12 @@ const Menu = ({ toggleDarkMode }: any) => {
       </div>
       <nav className={classes.nav + " " + (fixed ? classes.navFixed : "")}>
         <div className={classes.navContent}>
-          <Tabs initialValue="1">
-            <Tabs.Item label="Overview" value="1" />
-            <Tabs.Item label="Projects" value="2" />
-            <Tabs.Item label="Integrations" value="3" />
-            <Tabs.Item label="Activity" value="4" />
-            <Tabs.Item label="Domains" value="5" />
-            <Tabs.Item label="Usage" value="6" />
-            <Tabs.Item label="Settings" value="7" />
+          <Tabs initialValue="/" onChange={handleChange}>
+            <Tabs.Item label="Overview" value="/" />
+            <Tabs.Item label="Work History" value="/WorkHistory" />
+
+            <Tabs.Item label="Profile" value="/profile" />
+            {/* <Tabs.Item label="Blog" value="6" /> */}
           </Tabs>
         </div>
       </nav>

@@ -8,13 +8,59 @@ export const parseData = ({
     data: { user },
   },
 }) => {
-  const { avatarUrl, bio } = user;
-  const contributions = user.repositoriesContributedTo.edges.map(
-    (edge) => edge.node
+  const {
+    avatarUrl: avatar,
+    bio,
+    status: { message: status },
+    contributionsCollection: {
+      commitContributionsByRepository,
+      totalCommitContributions,
+      totalPullRequestContributions,
+      totalPullRequestReviewContributions,
+      totalRepositoriesWithContributedCommits,
+      totalRepositoriesWithContributedPullRequests,
+      totalRepositoryContributions,
+      contributionCalendar,
+    },
+    organizations,
+    pinnedItems,
+  } = user;
+
+  const contributions = [].concat(
+    [],
+    ...commitContributionsByRepository.map(({ contributions }: any) =>
+      contributions.edges.map(({ node }) => node)
+    )
   );
-  const pinnedItems = user.pinnedItems.edges.map((edge) => edge.node);
-  const repos = user.repositories.edges.map((edge) => edge.node);
-  return { contributions, avatarUrl, bio, pinnedItems, repos };
+
+  const pinned = pinnedItems?.edges?.map((edge) => edge.node);
+
+  const topRepositories = user.topRepositories.edges
+    .map((edge) => edge.node)
+    .map((repo) => {
+      const repoContributions = contributions.filter(
+        (contribution: any) => contribution?.repository?.name === repo.name
+      );
+      return {
+        ...repo,
+        contributions: repoContributions,
+      };
+    });
+
+  return {
+    contributions,
+    profile: { avatar, bio, status },
+    totalCommitContributions,
+    totalPullRequestContributions,
+    totalPullRequestReviewContributions,
+    totalRepositoriesWithContributedCommits,
+    totalRepositoriesWithContributedPullRequests,
+    totalRepositoryContributions,
+    pinnedItems: pinned,
+    topRepositories,
+    organizations: organizations.edges.map((edge) => edge.node),
+    contributionCalendar,
+  };
 };
 
 /**

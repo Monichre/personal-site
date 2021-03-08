@@ -4,73 +4,14 @@ import { Layout } from "../components/Layout";
 import Content from "../components/Content";
 import Footer from "../components/Footer";
 import Heading from "../components/Heading";
-import { parseData } from "../components/github-parser";
 
-export const query = graphql`
-  {
-    githubData {
-      data {
-        user {
-          avatarUrl
-          bio
-          repositories {
-            edges {
-              node {
-                name
-                description
-                url
-                stargazers {
-                  totalCount
-                }
-                readme {
-                  text
-                }
-              }
-            }
-          }
-          repositoriesContributedTo {
-            edges {
-              node {
-                url
-                name
-                owner {
-                  login
-                }
-              }
-            }
-          }
-          pinnedItems {
-            edges {
-              node {
-                url
-                name
-                owner {
-                  login
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+export interface HomeProps {}
 
-export interface HomeProps {
-  data: any;
-}
-
-const Home: React.SFC<HomeProps> = ({ data }) => {
-  const { pinnedItems, contributions, bio, repos, avatarUrl } = parseData(data);
-
+const Home: React.SFC<HomeProps> = () => {
   return (
     <Layout>
-      <Heading bio={bio} profile={avatarUrl} />
-      <Content
-        pinnedItems={pinnedItems}
-        contributions={contributions}
-        repos={repos}
-      />
+      <Heading />
+      <Content />
       <Footer />
     </Layout>
   );

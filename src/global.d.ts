@@ -32,3 +32,4 @@ declare global {
 }
 
 declare module "react-animated-cursor";
+declare module "rebass";

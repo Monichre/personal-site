@@ -3,71 +3,33 @@ import { GeistProvider, CssBaseline } from "@geist-ui/react";
 import { JssProvider } from "react-jss";
 import { useStaticQuery, graphql } from "gatsby";
 import AnimatedCursor from "react-animated-cursor";
-import { createGlobalStyle } from "styled-components";
-
-// const GlobalStyles = createGlobalStyle`
-// a {
-//   text-decoration: none;
-//   color: #fff;
-//   font-weight: 600;
-//   border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-//   transition: 0.5s ease;
-// }
-
-// a:hover {
-//   color: rgba(255, 255, 255, 0.5);
-//   border-bottom-color: rgba(255, 255, 255, 0.1);
-// }
-// `;
+import styled from "styled-components";
 
 // import { CSSDebugger } from "../css-debugger";
 import { Particles } from "../Particles/Particles";
 import Menu from "../Menu";
+import { useSiteContent } from "./site-content.hooks";
+import { useGithubData } from "./github-data.hooks";
+
+const AppWrap: any = styled.div`
+  height: 100vh;
+  max-height: 1200px;
+  overflow: scroll;
+`;
 
 export const AppContext = createContext({
   toggleDarkMode: () => {},
-  projects: [],
-  jobs: [],
+  githubData: {},
+  initiatives: [],
+  workHistory: [],
 });
 
 const Layout: React.FC = ({ children }) => {
-  const staticData = useStaticQuery(graphql`
-    query SiteDataQuery {
-      site {
-        siteMetadata {
-          title
-          description
-        }
-      }
-      allFile {
-        nodes {
-          childMarkdownRemark {
-            frontmatter {
-              date
-              title
-              slug
-            }
-          }
-          name
-          relativeDirectory
-        }
-      }
-    }
-  `);
   const {
-    allFile: { nodes },
-  } = staticData;
-
-  const { projects, jobs } = nodes.reduce(
-    (acc, node) => {
-      const { relativeDirectory } = node;
-      if (acc[relativeDirectory]) {
-        acc[relativeDirectory].push(node);
-      }
-      return acc;
-    },
-    { projects: [], jobs: [] }
-  );
+    siteContent: { workHistory, initiatives },
+  } = useSiteContent();
+  const { githubData } = useGithubData();
+  console.log("githubData: ", githubData);
 
   const [themeType, setThemeType] = useState<"light" | "dark">("dark");
   const toggleDarkMode = (): void =>
@@ -84,19 +46,23 @@ const Layout: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ toggleDarkMode, projects, jobs }}>
+    <AppContext.Provider
+      value={{ toggleDarkMode, initiatives, workHistory, githubData }}
+    >
       <JssProvider id={{ minify: true }}>
         <GeistProvider themeType={themeType}>
           <CssBaseline />
-          <Particles />
-          <AnimatedCursor
-            innerSize={8}
-            outerSize={8}
-            color="220, 90, 90"
-            outerAlpha={0.4}
-          />
-          <Menu />
-          {children}
+          <AppWrap>
+            <Particles />
+            <AnimatedCursor
+              innerSize={8}
+              outerSize={8}
+              color="220, 90, 90"
+              outerAlpha={0.4}
+            />
+            <Menu />
+            {children}
+          </AppWrap>
         </GeistProvider>
       </JssProvider>
     </AppContext.Provider>

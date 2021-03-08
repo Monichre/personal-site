@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 export const ParticleBackground = styled.div`
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   position: absolute;
   top: 0;
@@ -10,6 +10,8 @@ export const ParticleBackground = styled.div`
 
   .particles {
     .particles-canvas {
+      /* height: 100vh !important;
+      width: 100vw; */
     }
   }
 `;

@@ -3,12 +3,11 @@ import { GeistUIThemes, Text, Link } from "@geist-ui/react";
 import makeStyles from "./makeStyles";
 import EventListItem from "./EventListItem";
 import ProjectCard from "./ProjectCard";
-import { AppContext } from "./Layout/layout";
+import { AppContext } from "./Layout/Layout";
 import { useContext } from "react";
-import { useStaticQuery, graphql } from "gatsby";
-import { parseData } from "./github-parser";
+import { ContributionCalendar } from "./ContributionCalendar/ContributionCalendar";
 
-const useStyles = makeStyles((ui: GeistUIThemes) => ({
+export const useStylesContentStyles = makeStyles((ui: GeistUIThemes) => ({
   root: {},
   content: {
     width: ui.layout.pageWidthWithMargin,
@@ -29,10 +28,11 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
     alignItems: "stretch",
   },
   projects: {
-    width: "100%",
+    width: "40%",
   },
   activity: {
     flex: 1,
+    width: "60%",
   },
   [`@media screen and (min-width: ${ui.layout.pageWidthWithMargin})`]: {
     row: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
       flexWrap: "wrap",
     },
     projects: {
-      width: 540,
+      // width: 540,
       maxWidth: "100%",
       marginRight: 80,
     },
@@ -69,77 +69,41 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
   },
 }));
 
-const Content = ({ pinnedItems, contributions, repos }: any) => {
-  const classes = useStyles();
+const Content = () => {
+  const classes = useStylesContentStyles();
 
-  const { projects, jobs } = useContext(AppContext);
+  const {
+    githubData: { contributionCalendar, topRepositories },
+  } = useContext(AppContext);
+
   return (
     <div className={classes.root}>
       <div className={classes.content}>
         <div className={classes.row}>
           <div className={classes.projects}>
-            <ProjectCard
-              projectId="react-dashboard-design"
-              repo="ofekashery/react-dashboard-design"
-              created="4m"
-            />
-            <ProjectCard
-              projectId="personal-website"
-              repo="ofekashery/personal-website"
-              created="2d"
-            />
-            <ProjectCard projectId="docs" repo="github/docs" created="5d" />
-            <Text className={classes.viewAll}>
-              <Link color pure>
-                View All Projects
-              </Link>
+            <Text h2 className={classes.activityTitle}>
+              Top Repositories
             </Text>
+            {topRepositories?.map((repo) => (
+              <ProjectCard project={repo} />
+            ))}
           </div>
           <div className={classes.activity}>
             <Text h2 className={classes.activityTitle}>
-              Recent Activity
+              Contributions
             </Text>
-            <EventListItem
-              username="ofekashery"
-              avatar="/assets/avatar.png"
-              created="4m"
-            >
-              You deployed react-dashboard-design to <b>production</b>
-            </EventListItem>
-            <EventListItem
-              username="dependabot"
-              avatar="/assets/dependabot.png"
-              created="2d"
-            >
-              Dependabot deployed docs to{" "}
-              <b>docs-git-dependabot-npmelliptic-653.vercel.app</b>
-            </EventListItem>
-            <EventListItem
-              username="ofekashery"
-              avatar="/assets/avatar.png"
-              created="3d"
-            >
-              You deployed personal-website to <b>production</b>
-            </EventListItem>
-            <EventListItem
-              username="ofekashery"
-              avatar="/assets/avatar.png"
-              created="9d"
-            >
-              You deployed personal-website to <b>production</b>
-            </EventListItem>
-            <EventListItem
-              username="ofekashery"
-              avatar="/assets/avatar.png"
-              created="9d"
-            >
-              You created project <b>personal-website</b>
-            </EventListItem>
-            <Text className={classes.viewAll}>
-              <Link color pure>
-                View All Activity
-              </Link>
-            </Text>
+
+            <ContributionCalendar contributionCalendar={contributionCalendar} />
+
+            {/* {contributions?.map((contribution) => (
+              <EventListItem
+                username={contribution.repository.name}
+                avatar={contribution.repository.avatarUrl}
+                created={contribution.contributions.totalCount}
+              >
+                sometjing
+              </EventListItem>
+            ))} */}
           </div>
         </div>
       </div>

@@ -1,13 +1,29 @@
-import React from "react";
-import { GeistUIThemes, Avatar, Button, Text, Link } from "@geist-ui/react";
+import React, { useContext } from "react";
+import {
+  GeistUIThemes,
+  Avatar,
+  Button,
+  Text,
+  Link,
+  useTheme,
+  Badge,
+  Spacer,
+  Fieldset,
+  User,
+} from "@geist-ui/react";
 import makeStyles from "./makeStyles";
 import * as Icons from "react-feather";
+import { AppContext } from "./Layout/Layout";
 
 const useStyles = makeStyles((ui: GeistUIThemes) => ({
   root: {
     borderBottom: `solid 1px ${ui.palette.accents_2}`,
   },
-  content: {
+  "avatar-group": {
+    display: "inline-flex",
+    marginLeft: "16px",
+  },
+  inner: {
     display: "flex",
     flexDirection: "row",
     width: ui.layout.pageWidthWithMargin,
@@ -62,21 +78,49 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
   },
 }));
 
-const Heading = ({ bio, profile }) => {
+const Heading = () => {
   const classes = useStyles();
+
+  const {
+    githubData: {
+      profile: { avatar, bio, status },
+      organizations,
+
+      totalCommitContributions,
+      totalPullRequestContributions,
+      totalPullRequestReviewContributions,
+      totalRepositoriesWithContributedCommits,
+      totalRepositoriesWithContributedPullRequests,
+      totalRepositoryContributions,
+    },
+  } = useContext(AppContext);
   return (
     <div className={classes.root}>
-      <div className={classes.content}>
-        <Avatar alt="Your Avatar" className={classes.avatar} src={profile} />
+      {/*
+          <Fieldset.Footer.Actions>
+            {organizations.map((organization) => (
+              <User src={organization.avatarUrl} name={organization.name} />
+            ))}
+          </Fieldset.Footer.Actions>
+        </Fieldset.Footer>
+      </Fieldset> */}
+
+      <div className={classes.inner}>
+        <Avatar alt="Your Avatar" className={classes.avatar} src={avatar} />
         <div className={classes.name}>
           <div className={classes.title}>
             <Text h2 className={classes.username}>
-              Liam Ellis
+              monichre
+              <Avatar.Group className={classes["avatar-group"]}>
+                {organizations.map((organization) => (
+                  <Avatar src={organization.avatarUrl} stacked />
+                ))}
+              </Avatar.Group>
             </Text>
           </div>
           <div>
             <Link
-              href="https://github.com/ofekashery"
+              href="https://github.com/monichre"
               target="_blank"
               rel="noopener"
               pure
@@ -84,10 +128,41 @@ const Heading = ({ bio, profile }) => {
             >
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Icons.GitHub size={16} aria-label="Github" />
-                <Text className={classes.integrationsUsername}>monichre</Text>
+                <Text className={classes.integrationsUsername}>{status}</Text>
               </div>
             </Link>
             <Text className={classes.integrationsTitle}>{bio}</Text>
+            <Spacer />
+            <Badge.Anchor>
+              <Badge style={{ backgroundColor: "#50e3c1" }}>
+                {totalCommitContributions}
+              </Badge>
+              <Button size="small">Commits</Button>
+            </Badge.Anchor>
+            <Spacer inline x={1.5} />
+            <Badge.Anchor>
+              <Badge style={{ backgroundColor: "#50e3c1" }}>
+                {totalPullRequestContributions}
+              </Badge>
+              <Button size="small">PRs</Button>
+            </Badge.Anchor>
+            <Spacer inline x={1.5} />
+            <Badge.Anchor>
+              <Badge style={{ backgroundColor: "#50e3c1" }}>
+                {totalPullRequestReviewContributions}
+              </Badge>
+
+              <Button size="small">Code Reviews</Button>
+            </Badge.Anchor>
+            <Spacer inline x={1.5} />
+
+            <Badge.Anchor>
+              <Badge style={{ backgroundColor: "#50e3c1" }}>
+                {totalRepositoryContributions}
+              </Badge>
+              <Button size="small">Repos Contributed To</Button>
+            </Badge.Anchor>
+            <Spacer />
           </div>
         </div>
       </div>
@@ -96,3 +171,20 @@ const Heading = ({ bio, profile }) => {
 };
 
 export default Heading;
+{
+  /* <Badge.Anchor>
+<Badge
+  size="mini"
+  type="warning"
+  style={{
+    backgroundColor: theme.palette.cyanLighter,
+    color: theme.palette.foreground,
+  }}
+>
+  99+
+</Badge>
+<Button size="small" auto>
+  Action
+</Button>
+</Badge.Anchor> */
+}

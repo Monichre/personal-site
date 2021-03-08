@@ -1,4 +1,6 @@
 import React from "react";
+import { parseISO, formatISO, format, formatRFC3339 } from "date-fns";
+
 import {
   GeistUIThemes,
   Button,
@@ -7,20 +9,28 @@ import {
   Card,
   Dot,
   Tag,
+  Avatar,
+  Col,
+  Container,
+  Spacer,
 } from "@geist-ui/react";
+import { Flex, Box } from "rebass";
 import makeStyles from "./makeStyles";
 import * as Icons from "react-feather";
 
 interface Props {
-  projectId: string;
-  created: string;
-  repo: string;
+  project: any;
 }
 
 const useStyles = makeStyles((ui: GeistUIThemes) => ({
   card: {
     padding: "0 !important",
     marginBottom: `calc(${ui.layout.gap}*1.5) !important`,
+  },
+  avatar: {
+    width: "32px !important",
+    height: "32px !important",
+    marginRight: "10px !important",
   },
   title: {
     display: "flex",
@@ -94,35 +104,49 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
   },
 }));
 
-const ProjectCard = ({ projectId, created, repo }: Props) => {
+const ProjectCard = ({ project }: Props) => {
+  console.log("project: ", project);
   const classes = useStyles();
+  const {
+    name,
+    pushedAt,
+    updatedAt,
+    contributions,
+    owner: { avatarUrl },
+  } = project;
   return (
     <Card shadow className={classes.card}>
       <div className={classes.title}>
-        <Text h3>{projectId}</Text>
-        <Button className={classes.visitButton} size="small" auto>
-          Visit
-        </Button>
+        <Text h3>{name} </Text>
+
+        <Avatar className={classes.avatar} src={avatarUrl} />
       </div>
       <div className={classes.content}>
-        <Dot type="success" className={classes.dot}>
-          <Link pure>{projectId}.vercel.app</Link>
-          <Tag className={classes.tag} type="secondary">
-            Production
-          </Tag>
-          <span className={classes.created}>{created}</span>
-        </Dot>
-        <Dot type="success" className={classes.dot}>
-          <Link pure>{projectId}-oa71gi2.vercel.app</Link>
-          <Tag className={classes.tag} type="secondary">
-            Latest
-          </Tag>
-          <span className={classes.created}>{created}</span>
-        </Dot>
+        {contributions.map(({ occurredAt, commitCount }) => (
+          <Dot type="success" className={classes.dot}>
+            <Flex justifyContent="space-between" width={"100%"}>
+              <Box fontSize={12} lineHeight={"24px"}>
+                {commitCount} Commits
+              </Box>
+
+              <Box fontSize={12} lineHeight={"24px"}>
+                <span className={classes.created}>
+                  {format(parseISO(occurredAt), "PP")}
+                </span>
+              </Box>
+            </Flex>
+          </Dot>
+        ))}
       </div>
       <Card.Footer className={classes.footer}>
         <Icons.GitHub size={14} />
-        <Text className={classes.repo}>{repo}</Text>
+        <Text className={classes.repo}>
+          Total contributions: {contributions.length}
+        </Text>
+        <Tag>
+          <span>Updated</span>
+          <span style={{ marginLeft: "8px" }}>{updatedAt}</span>
+        </Tag>
       </Card.Footer>
     </Card>
   );

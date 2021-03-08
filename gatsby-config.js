@@ -6,6 +6,10 @@ const siteUrl = "https://gatsby-starter-typescript-deluxe.netlify.com";
 const siteImage = `${siteUrl}/icons/icon_512x512.png`;
 const siteKeywords = ["gatsby", "typescript", "starter", "javascript", "react"];
 
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
 module.exports = {
   siteMetadata: {
     title: siteTitle,
@@ -19,7 +23,7 @@ module.exports = {
     {
       resolve: `gatsby-source-github-api`,
       options: {
-        token: `f86abde781d4f400fa0e2fd0f119df6279bb2434`,
+        token: process.env.GATSBY_GITHUB_TOKEN,
         graphQLQuery: `
         query {
           user(login: "monichre") {
@@ -29,25 +33,78 @@ module.exports = {
             }
             avatarUrl
             bio
-            repositoriesContributedTo(first: 20) {
+            topRepositories(orderBy: {field: CREATED_AT, direction: DESC}, first: 20) {
               edges {
                 node {
                   name
-                  url
                   owner {
-                    login
+                    avatarUrl
                   }
+                  pushedAt
+                  updatedAt
+                }
+              }
+            }
+            contributionsCollection {
+              commitContributionsByRepository {
+                contributions(first: 10) {
+                  edges {
+                    node {
+                      commitCount
+                      occurredAt
+                      repository {
+                        name
+                        owner {
+                          avatarUrl
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              totalCommitContributions
+              totalPullRequestContributions
+              totalPullRequestReviewContributions
+              totalRepositoriesWithContributedCommits
+              totalRepositoriesWithContributedPullRequests
+              totalRepositoryContributions
+              contributionCalendar {
+                months {
+                  name
+                  totalWeeks
+                  firstDay
+                  year
+                }
+                totalContributions
+                weeks {
+                  contributionDays {
+                    color
+                    contributionCount
+                    contributionLevel
+                    date
+                    weekday
+                  }
+                }
+                colors
+              }
+            }
+            organizations(first: 10) {
+              edges {
+                node {
+                  avatarUrl
+                  name
                 }
               }
             }
             pinnedItems(first:10) {
               edges {
-                node{
+                node {
                   ...on Repository {
                     name
                     url
                     owner {
                       login
+                      avatarUrl
                     }
                   }
 
@@ -55,21 +112,7 @@ module.exports = {
               }
             }
             repositories(first: 20, orderBy: {field: STARGAZERS, direction: DESC}) {
-              edges {
-                node {
-                  name
-                  description
-                  url
-                  stargazers {
-                    totalCount
-                  }
-                  readme: object(expression:"master:README.md"){
-                    ... on Blob{
-                      text
-                    }
-                  }
-                }
-              }
+             totalCount
             }
           }
         }`,
