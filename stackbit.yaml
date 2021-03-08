@@ -8,7 +8,7 @@ publishDir: public
 # the assets object defining how to handle project assets
 dataDir: src/data
 # the folder containing project's markdown page files (.md, .mdx, .markdown)
-pagesDir: src/content
+pagesDir: src/content/pages
 # list of globs matching the files that should be excluded from the pagesDir
 excludePages:
   - README.md
@@ -39,10 +39,10 @@ assets:
 
 models:
   job:
-    type: page
+    type: data
     label: Job
-    folder: src/content/jobs
-    urlPath: "/work-history/{job}"
+    file: jobs.json
+    # urlPath: "/WorkHistory/{job}"
     # list of model fields
     fields:
       # see model fields documentation for more info
@@ -57,21 +57,15 @@ models:
       - type: string
         name: website
 
-  project:
-    type: page
-    label: Project
-    folder: src/content/projects
-    urlPath: "/projects/{project}"
+  link:
+    type: data
+    label: Link
+    file: links.json
+    # urlPath: "/projects/{project}"
     # list of model fields
     fields:
       # see model fields documentation for more info
       - type: string
-        name: name
+        name: title
       - type: string
-        name: description
-      - type: string
-        name: website
-      - type: string
-        name: stack
-      - type: string
-        name: role
+        name: url
