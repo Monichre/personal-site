@@ -1,31 +1,38 @@
 import React from "react";
-import { GeistUIThemes, Text, Link } from "@geist-ui/react";
+import { GeistUIThemes, Text } from "@geist-ui/react";
 import makeStyles from "./makeStyles";
-import EventListItem from "./EventListItem";
+
 import ProjectCard from "./ProjectCard";
 import { AppContext } from "./Layout/Layout";
 import { useContext } from "react";
 import { ContributionCalendar } from "./ContributionCalendar/ContributionCalendar";
-import { Flex } from "rebass";
+import { Box, Flex } from "rebass";
 
 export const useStylesContentStyles = makeStyles((ui: GeistUIThemes) => ({
-  root: {},
+  root: {
+    position: "relative",
+    zIndex: 10,
+  },
   content: {
     width: ui.layout.pageWidthWithMargin,
     maxWidth: "100%",
-    height: `calc(100vh - 432px)`,
+    height: `calc(100vh - 355px)`,
     // boxSizing: "border-box",
     overflow: "scroll",
     margin: "0 auto",
-    padding: `${ui.layout.pageMargin}`,
+    padding: `${ui.layout.pageMargin} ${ui.layout.pageMargin} 0`,
     // transform: "translateY(-35px)",
   },
-  flex: {
+  titleSection: {
     width: "100%",
     padding: `0 240px`,
     margin: "auto 0",
     borderBottom: "solid 1px #333",
-    // maxWidth: "782pt",
+  },
+  flex: {
+    width: "100%",
+    maxWidth: "782pt",
+    margin: "auto!important",
   },
   row: {
     display: "flex",
@@ -81,7 +88,7 @@ export const useStylesContentStyles = makeStyles((ui: GeistUIThemes) => ({
   },
 }));
 
-const Content = () => {
+const GithubStats = () => {
   const classes = useStylesContentStyles();
 
   const {
@@ -90,14 +97,16 @@ const Content = () => {
 
   return (
     <div className={classes.root}>
-      <Flex justifyContent="space-between" className={classes.flex}>
-        <Text h2 className={classes.activityTitle}>
-          Top Repositories
-        </Text>
-        <Text h2 className={classes.activityTitle}>
-          Contributions
-        </Text>
-      </Flex>
+      <Box className={classes.titleSection}>
+        <Flex justifyContent="space-between" className={classes.flex}>
+          <Text h2 className={classes.activityTitle}>
+            Top Repositories
+          </Text>
+          <Text h2 className={classes.activityTitle}>
+            Contributions
+          </Text>
+        </Flex>
+      </Box>
       <div className={classes.content}>
         <div className={classes.row}>
           <div className={classes.projects}>
@@ -114,4 +123,4 @@ const Content = () => {
   );
 };
 
-export default Content;
+export default GithubStats;

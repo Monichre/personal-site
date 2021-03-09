@@ -1,18 +1,17 @@
 import React from "react";
 import { Layout } from "../components/Layout";
 
-import Content from "../components/Content";
-// import Footer from "../components/Footer";
-import Heading from "../components/Heading";
+import GithubStats from "../components/GithubStats";
+
+import ProfileBanner from "../components/ProfileBanner";
 
 export interface HomeProps {}
 
 const Home: React.SFC<HomeProps> = () => {
   return (
     <Layout>
-      <Heading />
-      <Content />
-      {/* <Footer /> */}
+      <ProfileBanner />
+      <GithubStats />
     </Layout>
   );
 };

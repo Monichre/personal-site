@@ -1,5 +1,5 @@
 {
-  "include": ["./src/**/*"],
+  "include": ["src", "global.d.ts"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "target": "es5",
@@ -11,7 +11,9 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "typeRoots": ["node_modules/@types/", "./src/@types/", ".src/**/@types/"],
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "removeComments": true,
     "strict": true
   }
 }

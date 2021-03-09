@@ -1,17 +1,9 @@
-import React, { useState, useEffect } from "react";
-import {
-  GeistUIThemes,
-  Avatar,
-  Button,
-  Tabs,
-  useTheme,
-  Popover,
-  Link,
-  Spacer,
-} from "@geist-ui/react";
+import React from "react";
+import { GeistUIThemes, Link, Spacer, Tooltip } from "@geist-ui/react";
 import makeStyles from "./makeStyles";
 
 import { social } from "../data/links";
+import { ContactModal } from "./ContactModal/ContactModal";
 
 const useStyles = makeStyles((ui: GeistUIThemes) => ({
   header: {
@@ -22,6 +14,7 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
     fontSize: 16,
     height: 60,
     zIndex: 15,
+    position: "relative",
   },
   headerContent: {
     height: "100%",
@@ -91,40 +84,28 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
   },
 }));
 
-const Menu = ({ toggleDarkMode }: any) => {
+const Menu = () => {
   const classes = useStyles();
 
-  const [fixed, setFixed] = useState(false);
-
-  useEffect(() => {
-    const scrollHandler = () => {
-      const shouldFixed = document.documentElement.scrollTop > 60;
-      if (fixed !== shouldFixed) setFixed(shouldFixed);
-    };
-    document.addEventListener("scroll", scrollHandler);
-    return () => document.removeEventListener("scroll", scrollHandler);
-  }, [fixed]);
-
   return (
-    <>
-      <div className={classes.header}>
-        <div className={classes.headerContent}>
-          <div style={{ display: "flex" }}>
-            <div className={classes.headerTitle}>Hi. I'm Liam</div>
-          </div>
-          <div className={classes.sidebar}>
-            {social.map((link) => (
-              <>
-                <Link download={link.download} href={link.url}>
-                  {link.icon}
-                </Link>
-                <Spacer inline x={0.5} />
-              </>
-            ))}
-          </div>
+    <div className={classes.header}>
+      <div className={classes.headerContent}>
+        <div style={{ display: "flex" }}>
+          <div className={classes.headerTitle}>Hi. I'm Liam</div>
+        </div>
+        <div className={classes.sidebar}>
+          {social.map((link) => (
+            <Tooltip text={link.tooltip} placement="bottom">
+              <Link download={link.download} href={link.url}>
+                {link.icon}
+              </Link>
+              <Spacer inline x={0.5} />
+            </Tooltip>
+          ))}
+          <ContactModal />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

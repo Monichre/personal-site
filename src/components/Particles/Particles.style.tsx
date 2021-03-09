@@ -1,11 +1,12 @@
 import styled, { css } from "styled-components";
 export const ParticleBackground = styled.div`
-  height: 100%;
+  height: 100vh;
+  max-height: 100vh;
   width: 100vw;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index: 0;
   background: transparent;
 
   .particles {

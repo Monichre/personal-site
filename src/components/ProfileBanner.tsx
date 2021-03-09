@@ -5,11 +5,8 @@ import {
   Button,
   Text,
   Link,
-  useTheme,
   Badge,
   Spacer,
-  Fieldset,
-  User,
 } from "@geist-ui/react";
 import makeStyles from "./makeStyles";
 import * as Icons from "react-feather";
@@ -17,10 +14,11 @@ import { AppContext } from "./Layout/Layout";
 
 const useStyles = makeStyles((ui: GeistUIThemes) => ({
   root: {
-    // borderBottom: `solid 1px ${ui.palette.accents_2}`,
+    borderBottom: `solid 1px ${ui.palette.accents_2}`,
+    borderTop: `solid 1px ${ui.palette.accents_2}`,
   },
   "avatar-group": {
-    display: "inline-flex",
+    // display: "inline-flex",
     marginLeft: "16px",
   },
   inner: {
@@ -46,10 +44,12 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
   title: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
+    alignContent: "center",
+    alignItems: "center",
   },
   username: {
-    lineHeight: 1,
+    // lineHeight: "24px!important",
   },
   createProjectButton: {},
   [`@media screen and (max-width: ${ui.layout.pageWidthWithMargin})`]: {
@@ -78,7 +78,7 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
   },
 }));
 
-const Heading = () => {
+const ProfileBanner = () => {
   const classes = useStyles();
 
   const {
@@ -111,12 +111,12 @@ const Heading = () => {
           <div className={classes.title}>
             <Text h2 className={classes.username}>
               monichre
-              <Avatar.Group className={classes["avatar-group"]}>
-                {organizations.map((organization) => (
-                  <Avatar src={organization.avatarUrl} stacked />
-                ))}
-              </Avatar.Group>
             </Text>
+            <Avatar.Group className={classes["avatar-group"]}>
+              {organizations.map((organization: any) => (
+                <Avatar src={organization.avatarUrl} stacked />
+              ))}
+            </Avatar.Group>
           </div>
           <div>
             <Link
@@ -170,21 +170,4 @@ const Heading = () => {
   );
 };
 
-export default Heading;
-{
-  /* <Badge.Anchor>
-<Badge
-  size="mini"
-  type="warning"
-  style={{
-    backgroundColor: theme.palette.cyanLighter,
-    color: theme.palette.foreground,
-  }}
->
-  99+
-</Badge>
-<Button size="small" auto>
-  Action
-</Button>
-</Badge.Anchor> */
-}
+export default ProfileBanner;

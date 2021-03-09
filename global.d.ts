@@ -1,6 +1,3 @@
-/// <reference types="react/index.d.ts"/>
-/// <reference types="styled-components/cssprop" />
-
 import "styled-components";
 
 // Add support for css prop
