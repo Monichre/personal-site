@@ -18,7 +18,7 @@ export const AppContext = createContext({
   githubData: {},
 });
 
-const Layout: React.FC = ({ children }) => {
+export const Layout: React.FC = ({ children }) => {
   const { githubData } = useGithubData();
 
   return (
@@ -43,5 +43,3 @@ const Layout: React.FC = ({ children }) => {
     </AppContext.Provider>
   );
 };
-
-export { Layout };
