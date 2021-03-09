@@ -1,7 +1,6 @@
 import React, { useEffect, useState, createContext } from "react";
 import { GeistProvider, CssBaseline } from "@geist-ui/react";
 import { JssProvider } from "react-jss";
-import { useStaticQuery, graphql } from "gatsby";
 import AnimatedCursor from "react-animated-cursor";
 import styled from "styled-components";
 
