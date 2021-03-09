@@ -8,7 +8,7 @@ import styled from "styled-components";
 // import { CSSDebugger } from "../css-debugger";
 import { Particles } from "../Particles/Particles";
 import Menu from "../Menu";
-import { useSiteContent } from "./site-content.hooks";
+
 import { useGithubData } from "./github-data.hooks";
 
 const AppWrap: any = styled.div`
@@ -20,14 +20,9 @@ const AppWrap: any = styled.div`
 export const AppContext = createContext({
   toggleDarkMode: () => {},
   githubData: {},
-  initiatives: [],
-  workHistory: [],
 });
 
 const Layout: React.FC = ({ children }) => {
-  const {
-    siteContent: { workHistory, initiatives },
-  } = useSiteContent();
   const { githubData } = useGithubData();
   console.log("githubData: ", githubData);
 
@@ -46,9 +41,7 @@ const Layout: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <AppContext.Provider
-      value={{ toggleDarkMode, initiatives, workHistory, githubData }}
-    >
+    <AppContext.Provider value={{ toggleDarkMode, githubData }}>
       <JssProvider id={{ minify: true }}>
         <GeistProvider themeType={themeType}>
           <CssBaseline />

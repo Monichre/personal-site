@@ -1,5 +1,5 @@
 import React from "react";
-import { CalendarCanvas } from "@nivo/calendar";
+import { ResponsiveCalendar } from "@nivo/calendar";
 
 export interface ContributionCalendarProps {
   contributionCalendar: any;
@@ -25,14 +25,15 @@ export const ContributionCalendar: React.FC<ContributionCalendarProps> = ({
   );
 
   return (
-    <CalendarCanvas
+    <ResponsiveCalendar
       data={data}
       theme={{ textColor: "#fff" }}
       from={firstDay}
       margin={{ top: 40, right: 40, bottom: 50, left: 40 }}
       align="top"
-      height={500}
-      width={500}
+      // height={500}
+      direction="vertical"
+      // width={500}
       to={lastDay}
       emptyColor="#131212"
       colors={colors}

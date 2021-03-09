@@ -118,20 +118,20 @@ module.exports = {
         }`,
       },
     },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/src/content`,
-        name: "content",
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/src/data`,
-        name: "data",
-      },
-    },
+    // {
+    //   resolve: `gatsby-source-filesystem`,
+    //   options: {
+    //     path: `${__dirname}/src/content`,
+    //     name: "content",
+    //   },
+    // },
+    // {
+    //   resolve: `gatsby-source-filesystem`,
+    //   options: {
+    //     path: `${__dirname}/src/data`,
+    //     name: "data",
+    //   },
+    // },
     `gatsby-transformer-remark`,
     {
       resolve: `gatsby-source-filesystem`,

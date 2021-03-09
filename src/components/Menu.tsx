@@ -7,10 +7,11 @@ import {
   useTheme,
   Popover,
   Link,
+  Spacer,
 } from "@geist-ui/react";
 import makeStyles from "./makeStyles";
-import * as Icons from "react-feather";
-import { navigate } from "gatsby";
+
+import { social } from "../data/links";
 
 const useStyles = makeStyles((ui: GeistUIThemes) => ({
   header: {
@@ -90,30 +91,10 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
   },
 }));
 
-const popoverContent = () => (
-  <>
-    <Popover.Item title>
-      <span>User Settings</span>
-    </Popover.Item>
-    <Popover.Item>
-      <Link pure>Teams</Link>
-    </Popover.Item>
-    <Popover.Item>
-      <Link pure>GitHub</Link>
-    </Popover.Item>
-    <Popover.Item line />
-    <Popover.Item>
-      <Link pure>Logout</Link>
-    </Popover.Item>
-  </>
-);
-
 const Menu = ({ toggleDarkMode }: any) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const [fixed, setFixed] = useState(false);
 
-  const isDark = theme.type === "dark";
+  const [fixed, setFixed] = useState(false);
 
   useEffect(() => {
     const scrollHandler = () => {
@@ -124,48 +105,25 @@ const Menu = ({ toggleDarkMode }: any) => {
     return () => document.removeEventListener("scroll", scrollHandler);
   }, [fixed]);
 
-  const handleChange = (nextPath) => navigate(nextPath);
-
   return (
     <>
       <div className={classes.header}>
         <div className={classes.headerContent}>
           <div style={{ display: "flex" }}>
-            <div className={classes.headerTitle}>
-              Liam Ellis, Senior Software Engineer
-            </div>
+            <div className={classes.headerTitle}>Hi. I'm Liam</div>
           </div>
           <div className={classes.sidebar}>
-            <Button
-              aria-label="Toggle Dark mode"
-              className={classes.themeIcon}
-              auto
-              type="abort"
-              onClick={toggleDarkMode}
-            >
-              {isDark ? <Icons.Sun size={16} /> : <Icons.Moon size={16} />}
-            </Button>
-            <Popover
-              content={popoverContent}
-              placement="bottomEnd"
-              portalClassName={classes.popover}
-            >
-              <Avatar text="OA" />
-            </Popover>
+            {social.map((link) => (
+              <>
+                <Link download={link.download} href={link.url}>
+                  {link.icon}
+                </Link>
+                <Spacer inline x={0.5} />
+              </>
+            ))}
           </div>
         </div>
       </div>
-      <nav className={classes.nav + " " + (fixed ? classes.navFixed : "")}>
-        <div className={classes.navContent}>
-          <Tabs initialValue="/" onChange={handleChange}>
-            <Tabs.Item label="Overview" value="/" />
-            <Tabs.Item label="Work History" value="/WorkHistory" />
-
-            <Tabs.Item label="Profile" value="/profile" />
-            {/* <Tabs.Item label="Blog" value="6" /> */}
-          </Tabs>
-        </div>
-      </nav>
     </>
   );
 };

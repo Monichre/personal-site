@@ -17,7 +17,7 @@ import { AppContext } from "./Layout/Layout";
 
 const useStyles = makeStyles((ui: GeistUIThemes) => ({
   root: {
-    borderBottom: `solid 1px ${ui.palette.accents_2}`,
+    // borderBottom: `solid 1px ${ui.palette.accents_2}`,
   },
   "avatar-group": {
     display: "inline-flex",
@@ -28,7 +28,7 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
     flexDirection: "row",
     width: ui.layout.pageWidthWithMargin,
     maxWidth: "100%",
-    padding: `calc(${ui.layout.gap} * 2) ${ui.layout.pageMargin} calc(${ui.layout.gap} * 4)`,
+    padding: `calc(${ui.layout.gap} * 2) ${ui.layout.pageMargin} calc(${ui.layout.gap} )`,
     boxSizing: "border-box",
     margin: "0 auto",
   },
@@ -85,15 +85,15 @@ const Heading = () => {
     githubData: {
       profile: { avatar, bio, status },
       organizations,
+      contributionCalendar: { totalContributions },
 
-      totalCommitContributions,
       totalPullRequestContributions,
       totalPullRequestReviewContributions,
       totalRepositoriesWithContributedCommits,
       totalRepositoriesWithContributedPullRequests,
       totalRepositoryContributions,
     },
-  } = useContext(AppContext);
+  }: any = useContext(AppContext);
   return (
     <div className={classes.root}>
       {/*
@@ -135,9 +135,9 @@ const Heading = () => {
             <Spacer />
             <Badge.Anchor>
               <Badge style={{ backgroundColor: "#50e3c1" }}>
-                {totalCommitContributions}
+                {totalContributions}
               </Badge>
-              <Button size="small">Commits</Button>
+              <Button size="small">Contributions</Button>
             </Badge.Anchor>
             <Spacer inline x={1.5} />
             <Badge.Anchor>

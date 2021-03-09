@@ -6,16 +6,26 @@ import ProjectCard from "./ProjectCard";
 import { AppContext } from "./Layout/Layout";
 import { useContext } from "react";
 import { ContributionCalendar } from "./ContributionCalendar/ContributionCalendar";
+import { Flex } from "rebass";
 
 export const useStylesContentStyles = makeStyles((ui: GeistUIThemes) => ({
   root: {},
   content: {
     width: ui.layout.pageWidthWithMargin,
     maxWidth: "100%",
-    boxSizing: "border-box",
+    height: `calc(100vh - 432px)`,
+    // boxSizing: "border-box",
+    overflow: "scroll",
     margin: "0 auto",
-    padding: `0 ${ui.layout.pageMargin}`,
-    transform: "translateY(-35px)",
+    padding: `${ui.layout.pageMargin}`,
+    // transform: "translateY(-35px)",
+  },
+  flex: {
+    width: "100%",
+    padding: `0 240px`,
+    margin: "auto 0",
+    borderBottom: "solid 1px #333",
+    // maxWidth: "782pt",
   },
   row: {
     display: "flex",
@@ -63,9 +73,11 @@ export const useStylesContentStyles = makeStyles((ui: GeistUIThemes) => ({
   },
   activityTitle: {
     fontWeight: 700,
-    marginTop: ui.layout.gap,
+    margin: 0,
     fontSize: 24,
     textAlign: "center",
+    width: "100%",
+    padding: `8pt`,
   },
 }));
 
@@ -74,36 +86,27 @@ const Content = () => {
 
   const {
     githubData: { contributionCalendar, topRepositories },
-  } = useContext(AppContext);
+  }: any = useContext(AppContext);
 
   return (
     <div className={classes.root}>
+      <Flex justifyContent="space-between" className={classes.flex}>
+        <Text h2 className={classes.activityTitle}>
+          Top Repositories
+        </Text>
+        <Text h2 className={classes.activityTitle}>
+          Contributions
+        </Text>
+      </Flex>
       <div className={classes.content}>
         <div className={classes.row}>
           <div className={classes.projects}>
-            <Text h2 className={classes.activityTitle}>
-              Top Repositories
-            </Text>
             {topRepositories?.map((repo) => (
               <ProjectCard project={repo} />
             ))}
           </div>
           <div className={classes.activity}>
-            <Text h2 className={classes.activityTitle}>
-              Contributions
-            </Text>
-
             <ContributionCalendar contributionCalendar={contributionCalendar} />
-
-            {/* {contributions?.map((contribution) => (
-              <EventListItem
-                username={contribution.repository.name}
-                avatar={contribution.repository.avatarUrl}
-                created={contribution.contributions.totalCount}
-              >
-                sometjing
-              </EventListItem>
-            ))} */}
           </div>
         </div>
       </div>
