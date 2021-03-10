@@ -11,6 +11,8 @@ import {
 import makeStyles from "./makeStyles";
 import * as Icons from "react-feather";
 import { AppContext } from "./Layout/Layout";
+import { Flex } from "rebass";
+import useMedia from "use-media";
 
 const useStyles = makeStyles((ui: GeistUIThemes) => ({
   root: {
@@ -51,6 +53,7 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
   username: {
     // lineHeight: "24px!important",
   },
+
   createProjectButton: {},
   [`@media screen and (max-width: ${ui.layout.pageWidthWithMargin})`]: {
     createProjectButton: {
@@ -63,6 +66,19 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
     },
     username: {
       fontSize: 24,
+    },
+  },
+  [`@media screen and (max-width: 768px)`]: {
+    avatar: {
+      width: "40px !important",
+      height: "40px !important",
+      marginRight: "20px !important",
+    },
+    contributionBadges: {
+      flexDirection: "column!important",
+    },
+    contributionButton: {
+      margin: "8px 0!important",
     },
   },
   integrationsTitle: {
@@ -80,6 +96,7 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
 
 const ProfileBanner = () => {
   const classes = useStyles();
+  const isMobile = useMedia({ maxWidth: "768px" });
 
   const {
     githubData: {
@@ -89,22 +106,12 @@ const ProfileBanner = () => {
 
       totalPullRequestContributions,
       totalPullRequestReviewContributions,
-      totalRepositoriesWithContributedCommits,
-      totalRepositoriesWithContributedPullRequests,
+
       totalRepositoryContributions,
     },
   }: any = useContext(AppContext);
   return (
     <div className={classes.root}>
-      {/*
-          <Fieldset.Footer.Actions>
-            {organizations.map((organization) => (
-              <User src={organization.avatarUrl} name={organization.name} />
-            ))}
-          </Fieldset.Footer.Actions>
-        </Fieldset.Footer>
-      </Fieldset> */}
-
       <div className={classes.inner}>
         <Avatar alt="Your Avatar" className={classes.avatar} src={avatar} />
         <div className={classes.name}>
@@ -127,42 +134,51 @@ const ProfileBanner = () => {
               underline
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                <Icons.GitHub size={16} aria-label="Github" />
+                <Icons.GitHub size={14} aria-label="Github" />
                 <Text className={classes.integrationsUsername}>{status}</Text>
               </div>
             </Link>
             <Text className={classes.integrationsTitle}>{bio}</Text>
             <Spacer />
-            <Badge.Anchor>
-              <Badge style={{ backgroundColor: "#50e3c1" }}>
-                {totalContributions}
-              </Badge>
-              <Button size="small">Contributions</Button>
-            </Badge.Anchor>
-            <Spacer inline x={1.5} />
-            <Badge.Anchor>
-              <Badge style={{ backgroundColor: "#50e3c1" }}>
-                {totalPullRequestContributions}
-              </Badge>
-              <Button size="small">PRs</Button>
-            </Badge.Anchor>
-            <Spacer inline x={1.5} />
-            <Badge.Anchor>
-              <Badge style={{ backgroundColor: "#50e3c1" }}>
-                {totalPullRequestReviewContributions}
-              </Badge>
+            <Flex
+              flexDirection={isMobile ? `column` : "row"}
+              alignItems="flex-start"
+            >
+              <Badge.Anchor className={classes.contributionButton}>
+                <Badge size="mini" style={{ backgroundColor: "#50e3c1" }}>
+                  {totalContributions}
+                </Badge>
+                <Button size="mini">Contributions</Button>
+              </Badge.Anchor>
+              {!isMobile ? <Spacer inline x={1.5} /> : <Spacer y={0.5} />}
+              <Badge.Anchor className={classes.contributionButton}>
+                <Badge size="mini" style={{ backgroundColor: "#50e3c1" }}>
+                  {totalPullRequestContributions}
+                </Badge>
+                <Button size="mini">PRs</Button>
+              </Badge.Anchor>
+              {!isMobile ? <Spacer inline x={1.5} /> : <Spacer y={0.5} />}
+              <Badge.Anchor>
+                <Badge
+                  size="mini"
+                  className={classes.contributionButton}
+                  style={{ backgroundColor: "#50e3c1" }}
+                >
+                  {totalPullRequestReviewContributions}
+                </Badge>
 
-              <Button size="small">Code Reviews</Button>
-            </Badge.Anchor>
-            <Spacer inline x={1.5} />
+                <Button size="mini">Code Reviews</Button>
+              </Badge.Anchor>
+              {!isMobile ? <Spacer inline x={1.5} /> : <Spacer y={0.5} />}
 
-            <Badge.Anchor>
-              <Badge style={{ backgroundColor: "#50e3c1" }}>
-                {totalRepositoryContributions}
-              </Badge>
-              <Button size="small">Repos Contributed To</Button>
-            </Badge.Anchor>
-            <Spacer />
+              <Badge.Anchor className={classes.contributionButton}>
+                <Badge size="mini" style={{ backgroundColor: "#50e3c1" }}>
+                  {totalRepositoryContributions}
+                </Badge>
+                <Button size="mini">Repos Contributed To</Button>
+              </Badge.Anchor>
+              <Spacer />
+            </Flex>
           </div>
         </div>
       </div>

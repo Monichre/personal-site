@@ -91,7 +91,9 @@ const Menu = () => {
     <div className={classes.header}>
       <div className={classes.headerContent}>
         <div style={{ display: "flex" }}>
-          <div className={classes.headerTitle}>Hi. I'm Liam</div>
+          <div className={classes.headerTitle}>
+            Hi. I'm Liam. I'm a software engineer
+          </div>
         </div>
         <div className={classes.sidebar}>
           {social.map((link) => (

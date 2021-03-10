@@ -30,7 +30,7 @@ const useStyles = makeStyles((ui: GeistUIThemes) => ({
   avatar: {
     width: "32px !important",
     height: "32px !important",
-    marginRight: "10px !important",
+    marginLeft: "10px !important",
   },
   title: {
     display: "flex",
@@ -119,7 +119,7 @@ const ProjectCard = ({ project }: Props) => {
       <div className={classes.title}>
         <Text h3>{name} </Text>
 
-        <Avatar className={classes.avatar} src={avatarUrl} />
+        <Avatar className={classes.avatar} size="small" src={avatarUrl} />
       </div>
       <div className={classes.content}>
         {contributions.map(({ occurredAt, commitCount }) => (
@@ -139,14 +139,16 @@ const ProjectCard = ({ project }: Props) => {
         ))}
       </div>
       <Card.Footer className={classes.footer}>
-        <Icons.GitHub size={14} />
-        <Text className={classes.repo}>
-          Total contributions: {contributions.length}
-        </Text>
-        <Tag>
-          <span>Updated</span>
-          <span style={{ marginLeft: "8px" }}>{updatedAt}</span>
-        </Tag>
+        <Flex justifyContent="space-between" width={"100%"}>
+          <Text className={classes.repo}>
+            <Icons.GitHub size={14} />
+            Total: {contributions.length}
+          </Text>
+
+          <Tag>
+            <span>{updatedAt}</span>
+          </Tag>
+        </Flex>
       </Card.Footer>
     </Card>
   );

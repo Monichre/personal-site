@@ -1,7 +1,6 @@
 import React from "react";
-
 import { useStaticQuery, graphql } from "gatsby";
-import { parseData } from "../github-parser";
+import { parseData } from "./github-parser";
 
 type GithubData = {
   pinnedItems: any;
